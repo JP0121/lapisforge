@@ -5,7 +5,14 @@ export async function POST(request) {
   const { name, email, service, message } = await request.json();
 
   // 1. Format the message for Telegram & Email
-  const notificationText = `🔧 NEW REQUEST: JP's Tech Garage\n\nName: ${name}\nEmail: ${email}\nService: ${service}\nMessage: ${message}`;
+  const notificationText = `🔧 NEW SERVICE REQUEST\n\n` +
+  `Name: ${name}\n` +
+  `Email: ${email}\n` +
+  `Category: ${category}\n` +
+  `Device: ${brand} ${device}\n` +
+  `Model #: ${modelNumber}\n` +
+  `Service: ${service}\n\n` +
+  `Message: ${message}`;
 
   try {
     // 2. Send to Telegram
