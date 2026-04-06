@@ -1,21 +1,41 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { connectToDatabase } from '../../../lib/mongodb';
+import Appointment from '../../../models/appointment';
+import Schedule from '../../../models/schedule';
 
 export async function POST(request) {
-  const { name, email, service, message } = await request.json();
-
-  // 1. Format the message for Telegram & Email
-  const notificationText = `🔧 NEW SERVICE REQUEST\n\n` +
-  `Name: ${name}\n` +
-  `Email: ${email}\n` +
-  `Category: ${category}\n` +
-  `Device: ${brand} ${device}\n` +
-  `Model #: ${modelNumber}\n` +
-  `Service: ${service}\n\n` +
-  `Message: ${message}`;
+  // NEW: Added locationType and address extraction
+  const { name, email, category, brand, device, modelNumber, service, message, bookingDate, bookingTime, locationType, address } = await request.json();
 
   try {
-    // 2. Send to Telegram
+    await connectToDatabase();
+
+    // NEW: Save location data to MongoDB
+    await Appointment.create({
+      name, email, category, brand, device, modelNumber, service, message, bookingDate, bookingTime, locationType, address
+    });
+
+    await Schedule.findOneAndUpdate(
+      { date: bookingDate },
+      { $pull: { timeSlots: bookingTime } }
+    );
+
+    // NEW: Added Location Logic for Telegram Message
+    const locationText = locationType === 'mobile' ? `🚗 We Come To You\nAddress: ${address}` : `🏢 Garage Drop-off`;
+
+    const notificationText = `🔧 NEW REQUEST: JP's Tech Garage\n\n` +
+      `Name: ${name}\n` +
+      `Email: ${email}\n` +
+      `Category: ${category}\n` +
+      `Device: ${brand} ${device}\n` +
+      `Model #: ${modelNumber}\n` +
+      `Service: ${service}\n\n` +
+      `Date: ${bookingDate}\n` +
+      `Time: ${bookingTime}\n` +
+      `Location: ${locationText}\n\n` +
+      `Message: ${message}`;
+
     const telegramUrl = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
     await fetch(telegramUrl, {
       method: 'POST',
@@ -26,7 +46,6 @@ export async function POST(request) {
       }),
     });
 
-    // 3. Send Email via Nodemailer (Example using Gmail)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -37,9 +56,9 @@ export async function POST(request) {
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Send to yourself
+      to: process.env.EMAIL_USER,
       replyTo: email,
-      subject: `New Tech Garage Request: ${service} from ${name}`,
+      subject: `Tech Garage Request: ${device} - ${service}`,
       text: notificationText,
     });
 
