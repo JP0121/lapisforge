@@ -201,6 +201,12 @@ export default function AdminDashboard() {
             >
               Log Out
             </button>
+            <Link 
+  href="/admin/waiver" 
+  className="bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-sm font-bold py-2 px-4 rounded-xl hover:scale-105 transition-all shadow-lg shadow-cyan-900/20 flex items-center gap-2 border border-cyan-500/30"
+>
+  <span>✍️</span> Digital Waivers
+</Link>
           </div>
         </div>
 

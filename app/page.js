@@ -15,6 +15,12 @@ const TelegramIcon = ({ size = 20 }) => (
     <path d="M22 2 11 13"></path>
   </svg>
 );
+const MailIcon = ({ size = 20 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+  </svg>
+);
 
 export default function Home() {
   const [step, setStep] = useState(1);
@@ -462,10 +468,20 @@ export default function Home() {
       <footer className="mt-auto border-t border-slate-900 bg-slate-950/80 backdrop-blur-md py-12 px-6">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           
-          {/* Company Info */}
+          {/* Company Info & Email */}
           <div className="text-center md:text-left">
             <h3 className="text-white font-bold text-lg tracking-tight mb-1">JP's Tech Garage LLC</h3>
-            <p className="text-slate-500 text-xs uppercase tracking-widest font-medium mb-4">Precision Tech Repair & Custom Builds</p>
+            <p className="text-slate-500 text-xs uppercase tracking-widest font-medium mb-3">Precision Tech Repair & Custom Builds</p>
+            
+            {/* NEW: Clickable Email Address */}
+            <a 
+              href="mailto:contact@techgarage.lapisforge.com" 
+              className="flex items-center justify-center md:justify-start gap-2 text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium mb-5 group"
+            >
+              <span className="text-slate-500 group-hover:text-cyan-400 transition-colors"><MailIcon size={16} /></span>
+              contact@techgarage.lapisforge.com
+            </a>
+
             <p className="text-slate-600 text-[10px] leading-relaxed max-w-xs mx-auto md:mx-0">
               © {new Date().getFullYear()} JP's Tech Garage LLC. All rights reserved. Registered in the State of Michigan.
             </p>

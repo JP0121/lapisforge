@@ -18,7 +18,10 @@ const AppointmentSchema = new mongoose.Schema({
   address: { type: String },                          // NEW
   
   paymentStatus: { type: String, default: 'Pending' }, 
-  stripeSessionId: { type: String }, 
+  stripeSessionId: { type: String },
+  
+  signature: { type: String }, // Will hold the Base64 image data
+  signedAt: { type: Date },
   
   // Admin Tracking
   status: { type: String, default: 'New Request' }
