@@ -2,10 +2,17 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-// NEW: Custom SVG Facebook Icon (No extra imports needed!)
+// Custom SVG Icons
 const FacebookIcon = ({ size = 20 }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+);
+
+const TelegramIcon = ({ size = 20 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m22 2-7 20-4-9-9-4Z"></path>
+    <path d="M22 2 11 13"></path>
   </svg>
 );
 
@@ -121,26 +128,25 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('📡 Transmitting to Garage...');
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    setStatus('🔄 Securing Time Slot & Routing to Checkout...');
     
-    if (res.ok) {
-      setStatus('✅ Success! Request Received.');
-      fetchSchedules(); 
-      setTimeout(() => { 
-        setStep(1); 
-        setStatus(''); 
-        setFormData({ 
-          name: '', email: '', category: '', brand: '', device: '', modelNumber: '', service: '', message: '', 
-          bookingDate: '', bookingTime: '', locationType: 'dropoff', address: '' 
-        });
-      }, 3000);
-    } else {
-      setStatus('❌ Error Sending Request.');
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await res.json();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setStatus('❌ Error routing to payment gateway.');
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setStatus('❌ Network error occurred.');
     }
   };
 
@@ -196,25 +202,26 @@ export default function Home() {
           </header>
 
           {step === 1 && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8 tracking-wide">
-                Select a service below <span className="text-cyan-500 animate-pulse">_</span>
-              </h2>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {categories.map((cat) => (
-                  <button key={cat.title} onClick={() => handleCategorySelect(cat.title)}
-                    className="group bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10 transition-all text-left flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
-                    <span className="text-5xl group-hover:scale-110 transition-transform">{cat.icon}</span>
-                    <div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-cyan-400">{cat.title}</h3>
-                      <p className="text-xs text-slate-500 mt-1">Start Diagnostic</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8 tracking-wide">
+              Select a service below <span className="text-cyan-500 animate-pulse">_</span>
+            </h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {categories.map((cat) => (
+                <button key={cat.title} onClick={() => handleCategorySelect(cat.title)}
+                  // THE FIX: Removed the mobile stacking, forced flex-row and items-center everywhere
+                  className="group bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-2xl hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10 transition-all text-left flex items-center gap-5 w-full">
+                  <span className="text-4xl md:text-5xl group-hover:scale-110 transition-transform flex-shrink-0">{cat.icon}</span>
+                  <div>
+                    <h3 className="text-base md:text-lg font-bold text-white group-hover:text-cyan-400">{cat.title}</h3>
+                    <p className="text-xs text-slate-500 mt-1">Start Diagnostic</p>
+                  </div>
+                </button>
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
           {step === 2 && (
             <div className="max-w-2xl mx-auto animate-in zoom-in-95 duration-300">
@@ -469,12 +476,20 @@ export default function Home() {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Follow the Garage</span>
             <div className="flex gap-4">
               <a 
-                href="https://www.facebook.com/JPsTechGarage/" 
+                href="https://facebook.com/JPsTechGarage" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-3 rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all duration-300 flex items-center justify-center"
               >
                 <FacebookIcon size={20} />
+              </a>
+              <a 
+                href="https://t.me/ThatCellPhoneRepairGuy" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all duration-300 flex items-center justify-center"
+              >
+                <TelegramIcon size={20} />
               </a>
             </div>
           </div>
