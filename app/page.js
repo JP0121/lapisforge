@@ -74,7 +74,7 @@ export default function Home() {
         'Retro Console': ['N64', 'PS1', 'Dreamcast', 'Other Retro'],
         'Other': ['Other Console']
       },
-      services: ['HDMI Port Repair', 'Disc Drive Issue', 'Overheating/Cleaning', 'Controller Drift', 'Custom Shell/Mod', 'No Power', 'Software/Storage']
+      services: ['Cracked Screen','HDMI Port Repair', 'Disc Drive Issue', 'Overheating/Cleaning', 'Controller Drift', 'Custom Shell/Mod', 'No Power', 'Software/Storage']
     },
     'Smartphone': {
       brands: ['Apple', 'Samsung', 'Google', 'Other'],
