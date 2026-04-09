@@ -27,6 +27,7 @@ export async function GET(request) {
     const notificationText = `💰 NEW PAID BOOKING: JP's Tech Garage\n\n` +
       `Name: ${appointment.name}\n` +
       `Email: ${appointment.email}\n` +
+      `Phone: ${appointment.phone}\n` + // <--- NEW: Phone number added to your alerts!
       `Category: ${appointment.category}\n` +
       `Device: ${appointment.brand} ${appointment.device}\n` +
       `Model #: ${appointment.modelNumber}\n` +
@@ -73,8 +74,8 @@ export async function GET(request) {
 
     // Send Confirmation to the CUSTOMER
     await transporter.sendMail({
-      from: `"JP's Tech Garage" <${process.env.EMAIL_USER}>`, // Looks professional in their inbox
-      to: appointment.email, // Sends directly to the email they typed in the form
+      from: `"JP's Tech Garage" <${process.env.EMAIL_USER}>`, 
+      to: appointment.email, 
       subject: `Booking Confirmed: JP's Tech Garage`,
       text: customerEmailText,
     });

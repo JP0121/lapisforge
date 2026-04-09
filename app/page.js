@@ -25,7 +25,7 @@ const MailIcon = ({ size = 20 }) => (
 export default function Home() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ 
-    name: '', email: '', category: '', brand: '', device: '', modelNumber: '', service: '', message: '',
+    name: '', email: '', phone: '', category: '', brand: '', device: '', modelNumber: '', service: '', message: '',
     bookingDate: '', bookingTime: '', 
     locationType: 'dropoff', address: '' 
   });
@@ -47,7 +47,8 @@ export default function Home() {
   const nextMonth = (e) => { e.preventDefault(); setCalendarView(new Date(currentYear, currentMonth + 1, 1)); };
 
   const isDateAvailable = (dateStr) => {
-    return availableSchedules.some(schedule => schedule.date === dateStr);
+    // NEW: Checks if the date exists AND has more than 0 time slots left
+    return availableSchedules.some(schedule => schedule.date === dateStr && schedule.timeSlots.length > 0);
   };
 
   const fetchSchedules = async () => {
@@ -431,10 +432,12 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-800 pt-6 mt-6">
-                  <input type="text" required placeholder="Your Name" className="w-full p-4 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 outline-none"
+                  <input type="text" required placeholder="Name" className="w-full p-4 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 outline-none"
                     value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
-                  <input type="email" required placeholder="Your Email" className="w-full p-4 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 outline-none"
+                  <input type="email" required placeholder="Email" className="w-full p-4 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 outline-none"
                     value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                    <input type="tel" required placeholder="Phone number" className="w-full p-4 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 outline-none"
+                    value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
                 </div>
                 
                 <textarea required placeholder="Additional notes or specific symptoms..." rows="3" className="w-full p-4 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 outline-none resize-none"

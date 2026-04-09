@@ -4,6 +4,10 @@ const AppointmentSchema = new mongoose.Schema({
   // Customer & Device Info
   name: { type: String, required: true },
   email: { type: String, required: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true }, // NEW: Added phone number tracking
+  category: { type: String, required: true },
   category: { type: String, required: true },
   brand: { type: String },
   device: { type: String },
