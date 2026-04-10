@@ -200,6 +200,12 @@ export default function AdminDashboard() {
             <Link href="/admin/booking" className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-teal-900/20 flex items-center gap-1.5 border border-teal-500/30">
               <span>⚡</span> Manual Bookings
             </Link>
+            <Link 
+  href="/admin/reviews" 
+  className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-orange-900/20 flex items-center gap-1.5 border border-orange-500/30"
+>
+  <span>⭐</span> Reviews
+</Link>
           </div>
         </div>
 

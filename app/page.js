@@ -22,6 +22,79 @@ const MailIcon = ({ size = 20 }) => (
   </svg>
 );
 
+// --- NEW REVIEWS CAROUSEL COMPONENT ---
+const ReviewsCarousel = () => {
+  const [reviews, setReviews] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    // Fetch live reviews from database
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch('/api/reviews');
+        const data = await res.json();
+        if (data.success && data.reviews.length > 0) {
+          setReviews(data.reviews);
+        }
+      } catch (err) { console.error("Failed to load reviews"); }
+    };
+    fetchReviews();
+  }, []);
+
+  // Auto-rotate the carousel every 5 seconds
+  useEffect(() => {
+    if (reviews.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % reviews.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [reviews.length]);
+
+  if (reviews.length === 0) return null; // Don't show anything if there are no reviews yet!
+
+  const currentReview = reviews[currentIndex];
+
+  return (
+    <div className="w-full max-w-2xl mx-auto my-16 px-4">
+      <div className="text-center mb-6">
+        <h3 className="text-cyan-500 text-sm font-bold uppercase tracking-widest mb-1">Customer Feedback</h3>
+        <h2 className="text-2xl font-bold text-white">Don't just take my word for it.</h2>
+      </div>
+      
+      <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-xl relative min-h-[200px] flex flex-col justify-center text-center animate-in fade-in zoom-in-95 duration-500" key={currentIndex}>
+        <div className="text-yellow-400 text-2xl mb-4 drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]">
+          {"★".repeat(currentReview.rating)}{"☆".repeat(5 - currentReview.rating)}
+        </div>
+        <p className="text-slate-300 italic mb-6 text-lg leading-relaxed px-4">"{currentReview.text}"</p>
+        <p className="text-white font-bold tracking-wide">— {currentReview.name}</p>
+        
+        {/* Navigation Dots */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          {reviews.map((_, idx) => (
+            <button 
+              key={idx} 
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-1.5 rounded-full transition-all ${idx === currentIndex ? 'w-6 bg-cyan-500' : 'w-2 bg-slate-700 hover:bg-slate-500'}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* NEW: Leave a Review Button */}
+      <div className="text-center mt-8">
+        <Link 
+          href="/reviews" 
+          className="inline-flex items-center gap-2 bg-slate-900 border border-slate-800 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-400 font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-cyan-900/20 group"
+        >
+          <span className="group-hover:scale-110 transition-transform">✍️</span> 
+          Drop a Review
+        </Link>
+      </div>
+      
+    </div>
+  );
+};
+
 export default function Home() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ 
@@ -466,6 +539,8 @@ export default function Home() {
           )}
         </div>
       </main>
+
+      <ReviewsCarousel />
 
       {/* --- OFFICIAL COMPANY FOOTER --- */}
       <footer className="mt-auto border-t border-slate-900 bg-slate-950/80 backdrop-blur-md py-12 px-6">
