@@ -166,7 +166,7 @@ export default function AdminDashboard() {
           ← Return to Garage
         </Link>
         <div className="bg-slate-900 border border-slate-800 p-10 rounded-3xl shadow-2xl max-w-md w-full relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent animate-scanline"></div>
+          <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-cyan-500 to-transparent animate-scanline"></div>
           <h1 className="text-2xl font-bold text-white text-center mb-2">Restricted Area</h1>
           <p className="text-slate-500 text-center text-sm mb-8">Enter administrative passcode to continue.</p>
           <form onSubmit={handleLogin} className="space-y-6">
@@ -194,10 +194,10 @@ export default function AdminDashboard() {
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-2xl font-bold text-white tracking-tight mr-2">Admin <span className="text-purple-500">Command Center</span></h1>
             <button onClick={() => { sessionStorage.removeItem('adminPass'); setIsLoggedIn(false); }} className="text-xs bg-slate-800 hover:bg-red-900/50 hover:text-red-400 text-slate-400 px-3 py-1.5 rounded-full transition-all border border-slate-700 hover:border-red-500/50">Log Out</button>
-            <Link href="/admin/waiver" className="bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-cyan-900/20 flex items-center gap-1.5 border border-cyan-500/30">
+            <Link href="/admin/waiver" className="bg-linear-to-r from-purple-600 to-cyan-600 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-cyan-900/20 flex items-center gap-1.5 border border-cyan-500/30">
               <span>✍️</span> Waivers
             </Link>
-            <Link href="/admin/booking" className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-teal-900/20 flex items-center gap-1.5 border border-teal-500/30">
+            <Link href="/admin/booking" className="bg-linear-to-r from-emerald-600 to-teal-600 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-teal-900/20 flex items-center gap-1.5 border border-teal-500/30">
               <span>⚡</span> Manual Bookings
             </Link>
             <Link 
@@ -206,6 +206,9 @@ export default function AdminDashboard() {
 >
   <span>⭐</span> Reviews
 </Link>
+<Link href="/admin/kanban" className="bg-linear-to-r from-indigo-600 to-blue-600 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-blue-900/20 flex items-center gap-1.5 border border-blue-500/30">
+              <span>🛠️</span> Repair Board
+            </Link>
           </div>
         </div>
 
@@ -309,7 +312,7 @@ export default function AdminDashboard() {
 
                 <button 
                   onClick={handleSaveSchedule}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-purple-900/20"
+                  className="w-full bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-purple-900/20"
                 >
                   {timeSlots.length === 0 ? 'Save & Clear Day' : 'Save to Database'}
                 </button>

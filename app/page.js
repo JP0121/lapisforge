@@ -559,7 +559,12 @@ export default function Home() {
               <span className="text-slate-500 group-hover:text-cyan-400 transition-colors"><MailIcon size={16} /></span>
               contact@techgarage.lapisforge.com
             </a>
-
+            <Link 
+          href="/terms" 
+          className="text-slate-500 text-[10px] uppercase tracking-widest hover:text-cyan-400 transition-colors"
+        >
+          📃 Terms & Conditions
+        </Link>
             <p className="text-slate-600 text-[10px] leading-relaxed max-w-xs mx-auto md:mx-0">
               © {new Date().getFullYear()} JP's Tech Garage LLC. All rights reserved. Registered in the State of Michigan.
             </p>
