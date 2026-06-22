@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+JP's Tech Garage: Service & Operations Platform
+A custom, full-stack web application engineered to manage end-to-end hardware repair operations. This platform serves as both a client-facing booking portal and an internal administrative dashboard, consolidating automated calendar scheduling, integrated digital waivers, and service management into a single environment using React, Node.js, and Express.
+<img width="1919" height="931" alt="Screenshot 2026-04-09 132335" src="https://github.com/user-attachments/assets/0ae34ade-05b6-418e-8d7b-9b90f1f0d58c" />
+<img width="1912" height="922" alt="Screenshot 2026-06-20 202238" src="https://github.com/user-attachments/assets/773ca879-0268-4bbc-ada5-d4fe32ec3c17" />
+<img width="836" height="923" alt="Screenshot 2026-04-09 132403" src="https://github.com/user-attachments/assets/182d071c-1a80-4af5-9f4f-6eea1b4c5506" />
+<img width="1919" height="929" alt="Screenshot 2026-04-09 132425" src="https://github.com/user-attachments/assets/9f92e091-b02d-4a9f-80a5-ea3e0481d46c" />
+
+
+
 
 ## Getting Started
 
